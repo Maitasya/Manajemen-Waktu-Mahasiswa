@@ -85,6 +85,9 @@ PengembanganDiri --|> Kegiatan : "inheritance"
 Mahasiswa "1" --> "1" PrioritasManager : "menggunakan"
 Mahasiswa "1" --> "1" JadwalManager : "menggunakan"
 ```
+#### diagram hasil di mermaid.ai
+<img width="1022" height="407" alt="image" src="https://github.com/user-attachments/assets/6aa87adc-d0b4-4f21-975b-6da9560da391" />
+
 Class diagram ini menggambarkan sistem manajemen waktu mahasiswa.
 - Mahasiswa menyimpan data dasar seperti nama, NIM, dan daftar kegiatan. Mahasiswa bisa menambah kegiatan, melihat semua kegiatan, dan mengetahui jumlah kegiatan yang dimiliki.
 - Kegiatan adalah class induk untuk semua aktivitas mahasiswa, menyimpan nama, jenis, hari, tanggal, jam mulai & selesai, serta prioritas. Kegiatan punya method untuk menghitung durasi, mengatur prioritas, dan menampilkan informasi.
@@ -417,17 +420,17 @@ class JadwalManager {
 }
 ```
 #### Screenshot output
-
+ Input masukan awal jadwal kelas harian
 <img width="1348" height="821" alt="Screenshot 2026-03-24 142657" src="https://github.com/user-attachments/assets/b700efdc-5f47-4f3b-9ee9-201ba28e7784" />
 
+Input jadwal kegitaan praktikum
 <img width="1355" height="818" alt="Screenshot 2026-03-24 142712" src="https://github.com/user-attachments/assets/855c4d60-fa96-49ee-bc95-c1c060a75b6e" />
 
-
+Input jadwal kegitaan deadline tugas
 <img width="1367" height="477" alt="Screenshot 2026-03-24 142736" src="https://github.com/user-attachments/assets/5719a3ea-579e-4a39-b35d-85e1db6958e5" />
 
-
+Input jadwal kegitaan pengembangan diri
 <img width="1372" height="822" alt="Screenshot 2026-03-24 142751" src="https://github.com/user-attachments/assets/febcfba4-bb97-42c1-82cc-b51c137bb8f0" />
 
-
-
+Informasi keseluruhan jadwal
 <img width="1318" height="763" alt="Screenshot 2026-03-24 142809" src="https://github.com/user-attachments/assets/0c8f621c-8a4c-491f-9fff-94c3d9f16efe" />
