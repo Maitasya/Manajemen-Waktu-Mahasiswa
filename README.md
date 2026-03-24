@@ -81,4 +81,14 @@ PengembanganDiri --|> Kegiatan : "inheritance"
 Mahasiswa "1" --> "1" PrioritasManager : "menggunakan"
 Mahasiswa "1" --> "1" JadwalManager : "menggunakan"
 ```
-
+Class diagram ini menggambarkan sistem manajemen waktu mahasiswa.
+- Mahasiswa menyimpan data dasar seperti nama, NIM, dan daftar kegiatan. Mahasiswa bisa menambah kegiatan, melihat semua kegiatan, dan mengetahui jumlah kegiatan yang dimiliki.
+- Kegiatan adalah class induk untuk semua aktivitas mahasiswa, menyimpan nama, jenis, hari, tanggal, jam mulai & selesai, serta prioritas. Kegiatan punya method untuk menghitung durasi, mengatur prioritas, dan menampilkan informasi.
+- Terdapat empat jenis kegiatan yang mewarisi Kegiatan:
+1. Kuliah – menyimpan mata kuliah.
+2. Praktikum – menyimpan informasi asistensi dan demo.
+3. DeadlineTugas – menyimpan hari deadline tugas.
+4. PengembanganDiri – menyimpan jenis kegiatan pengembangan diri.
+- PrioritasManager menghitung dan memperbarui prioritas kegiatan mahasiswa.
+- JadwalManager mengecek bentrok jadwal, menghitung total jam kegiatan, dan menampilkan prioritas utama.
+- Relasinya: Mahasiswa memiliki banyak kegiatan dan menggunakan PrioritasManager serta JadwalManager untuk mengatur jadwal dan prioritas.
