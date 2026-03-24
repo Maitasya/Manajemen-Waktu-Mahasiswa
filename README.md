@@ -98,3 +98,334 @@ Class diagram ini menggambarkan sistem manajemen waktu mahasiswa.
 - Relasinya: Mahasiswa memiliki banyak kegiatan dan menggunakan PrioritasManager serta JadwalManager untuk mengatur jadwal dan prioritas.
 
 #### Implementasi Kode
+
+```java
+import java.util.Scanner;
+// MAIN PROGRAM 
+public class ManajemenWaktuMahasiswa {
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("=== Tracker Manajemen Waktu Mahasiswa ===");
+
+        System.out.print("Masukkan Nama: ");
+        String nama = input.nextLine();
+
+        System.out.print("Masukkan NIM: ");
+        String nim = input.nextLine();
+
+        Mahasiswa mhs = new Mahasiswa(nama, nim);
+
+        PrioritasManager pm = new PrioritasManager();
+        JadwalManager jm = new JadwalManager();
+
+// Input jadwal kuliah 1 semester
+    System.out.println("\nInput Jadwal Kuliah 1 Semester");
+    System.out.print("Berapa jumlah mata kuliah? ");
+    int jumlahMK = input.nextInt();
+    input.nextLine();
+
+    for (int i = 0; i < jumlahMK; i++) {
+        System.out.println("\nMata kuliah ke-" + (i + 1));
+        System.out.print("Nama matkul: ");
+        String matkul = input.nextLine();
+        System.out.print("Hari: ");
+        String hari = input.nextLine();
+        System.out.print("Tanggal mulai semester: ");
+        String tanggal = input.nextLine();
+        System.out.print("Jam mulai: ");
+        int mulai = input.nextInt();
+        System.out.print("Jam selesai: ");
+        int selesai = input.nextInt();
+        input.nextLine();
+
+         mhs.tambahKegiatan(new Kuliah(matkul, hari, tanggal, mulai, selesai, matkul));
+    }
+
+// Input kegiatan lain
+    int pilih = 1;
+    while (pilih == 1) {
+        System.out.println("\nTambah kegiatan lain?");
+        System.out.println("1. ya");
+        System.out.println("0. tidak");
+        pilih = input.nextInt();
+        input.nextLine();
+
+        if (pilih == 1) {
+            System.out.println("\nJenis kegiatan:");
+            System.out.println("1. Praktikum (terpisah: praktikum/asistensi/demo)");
+            System.out.println("2. Deadline Tugas");
+            System.out.println("3. Pengembangan Diri (Organisasi, Pelatihan, Acara, Seminar)");
+
+            int jenis = input.nextInt();
+            input.nextLine();
+
+                if (jenis == 1) {
+                    Praktikum.tambahPraktikumLengkap(mhs, input);
+                } else if (jenis == 2) {
+                    System.out.print("Nama kegiatan: ");
+                    String namaKegiatan = input.nextLine();
+                    System.out.print("Hari: ");
+                    String hariK = input.nextLine();
+                    System.out.print("Tanggal: ");
+                    String tanggalK = input.nextLine();
+                    System.out.print("Jam mulai: ");
+                    int mulai = input.nextInt();
+                    System.out.print("Jam selesai: ");
+                    int selesai = input.nextInt();
+                    input.nextLine();
+                    System.out.print("Deadline hari apa: ");
+                    String d = input.nextLine();
+                    mhs.tambahKegiatan(new DeadlineTugas(namaKegiatan, hariK, tanggalK, mulai, selesai, d));
+                } else if (jenis == 3) {
+                    System.out.print("Nama kegiatan: ");
+                    String namaKegiatan = input.nextLine();
+                    System.out.print("Hari: ");
+                    String hariK = input.nextLine();
+                    System.out.print("Tanggal: ");
+                    String tanggalK = input.nextLine();
+                    System.out.print("Jam mulai: ");
+                    int mulai = input.nextInt();
+                    System.out.print("Jam selesai: ");
+                    int selesai = input.nextInt();
+                    input.nextLine();
+                    System.out.print("Jenis kegiatan (Organisasi/Pelatihan/Acara/Seminar): ");
+                    String jenisK = input.nextLine();
+                    mhs.tambahKegiatan(new PengembanganDiri(namaKegiatan, hariK, tanggalK, mulai, selesai, jenisK));
+                }
+            }
+        }
+
+// Proses sistem
+    pm.updateSemuaPrioritas(mhs);
+    mhs.lihatSemuaKegiatan();
+    jm.cekBentrok(mhs);
+    int total = jm.hitungTotalJam(mhs);
+    System.out.println("\nTotal jam kegiatan: " + total);
+    jm.tampilPrioritasUtama(mhs);
+    System.out.println("\nProgram selesai");
+    }
+}
+// KELAS MAHASISWA 
+class Mahasiswa {
+    String nama;
+    String nim;
+    Kegiatan[] daftarKegiatan = new Kegiatan[100];
+    int jumlahKegiatan = 0;
+
+    Mahasiswa(String nama, String nim) {
+        this.nama = nama;
+        this.nim = nim;
+    }
+
+    void tambahKegiatan(Kegiatan k) {
+        daftarKegiatan[jumlahKegiatan] = k;
+        jumlahKegiatan++;
+    }
+
+    void lihatSemuaKegiatan() {
+        System.out.println("\nDaftar Kegiatan " + nama + ":");
+        for (int i = 0; i < jumlahKegiatan; i++) {
+            System.out.println((i + 1) + ". " + daftarKegiatan[i].getInfo());
+        }
+    }
+
+    Kegiatan[] getDaftarKegiatan() {
+        return daftarKegiatan;
+    }
+
+    int getJumlahKegiatan() {
+        return jumlahKegiatan;
+    }
+}
+// KELAS KEGIATAN 
+class Kegiatan {
+    String namaKegiatan;
+    String kategori;
+    String hari;
+    String tanggal;
+    int jamMulai;
+    int jamSelesai;
+    int prioritas;
+
+    Kegiatan(String nama, String kategori, String hari, String tanggal, int mulai, int selesai) {
+        this.namaKegiatan = nama;
+        this.kategori = kategori;
+        this.hari = hari;
+        this.tanggal = tanggal;
+        this.jamMulai = mulai;
+        this.jamSelesai = selesai;
+        this.prioritas = 0;
+    }
+
+    int getDurasi() { return jamSelesai - jamMulai; }
+
+    void setPrioritas(int p) { prioritas = p; }
+
+    String getInfo() {
+        return namaKegiatan + " | " + kategori + " | " + hari + " | " + tanggal +
+               " | " + jamMulai + "-" + jamSelesai + " | prioritas: " + prioritas;
+    }
+}
+// SUBCLASS KEGIATAN 
+// KULIAH KELAS 
+class Kuliah extends Kegiatan {
+    String mataKuliah;
+
+    Kuliah(String nama, String hari, String tanggal, int mulai, int selesai, String mataKuliah) {
+        super(nama, "Kuliah Kelas", hari, tanggal, mulai, selesai);
+        this.mataKuliah = mataKuliah;
+    }
+
+    @Override
+    String getInfo() {
+        return super.getInfo() + " | matkul: " + mataKuliah;
+    }
+}
+// PRAKTIKUM 
+class Praktikum extends Kegiatan {
+
+    Praktikum(String nama, String hari, String tanggal, int mulai, int selesai) {
+        super(nama, "Praktikum", hari, tanggal, mulai, selesai);
+    }
+
+    @Override
+    String getInfo() {
+        return super.getInfo();
+    }
+
+    static void tambahPraktikumLengkap(Mahasiswa mhs, Scanner input) {
+        System.out.print("Nama Praktikum: ");
+        String namaPraktikum = input.nextLine();
+
+// Praktikum utama 
+        System.out.print("Hari Praktikum utama: ");
+        String hariPraktikum = input.nextLine();
+        System.out.print("Tanggal: ");
+        String tanggalPraktikum = input.nextLine();
+        System.out.print("Jam mulai: ");
+        int mulai = input.nextInt();
+        System.out.print("Jam selesai: ");
+        int selesai = input.nextInt();
+        input.nextLine();
+        mhs.tambahKegiatan(new Praktikum(namaPraktikum, hariPraktikum, tanggalPraktikum, mulai, selesai));
+// Asistensi
+        System.out.print("Hari Asistensi (kosong jika tidak ada): ");
+        String hariAsistensi = input.nextLine();
+        if (!hariAsistensi.isEmpty()) {
+            System.out.print("Tanggal: ");
+            String tanggalAsist = input.nextLine();
+            System.out.print("Jam mulai: ");
+            int mulaiAsist = input.nextInt();
+            System.out.print("Jam selesai: ");
+            int selesaiAsist = input.nextInt();
+            input.nextLine();
+            mhs.tambahKegiatan(new Praktikum("Asistensi " + namaPraktikum, hariAsistensi, tanggalAsist, mulaiAsist, selesaiAsist));
+        }
+// Demo
+        System.out.print("Hari Demo (kosong jika tidak ada): ");
+        String hariDemo = input.nextLine();
+        if (!hariDemo.isEmpty()) {
+            System.out.print("Tanggal: ");
+            String tanggalDemo = input.nextLine();
+            System.out.print("Jam mulai: ");
+            int mulaiDemo = input.nextInt();
+            System.out.print("Jam selesai: ");
+            int selesaiDemo = input.nextInt();
+            input.nextLine();
+            mhs.tambahKegiatan(new Praktikum("Demo " + namaPraktikum, hariDemo, tanggalDemo, mulaiDemo, selesaiDemo));
+        }
+    }
+}
+// DEADLINE TUGAS 
+class DeadlineTugas extends Kegiatan {
+    String deadlineHari;
+
+    DeadlineTugas(String nama, String hari, String tanggal, int mulai, int selesai, String deadlineHari) {
+        super(nama, "Deadline Tugas", hari, tanggal, mulai, selesai);
+        this.deadlineHari = deadlineHari;
+    }
+
+    @Override
+    String getInfo() {
+        return super.getInfo() + " | deadline: " + deadlineHari;
+    }
+}
+// PENGEMBANGAN DIRI 
+class PengembanganDiri extends Kegiatan {
+    String jenisKegiatan;
+
+    PengembanganDiri(String nama, String hari, String tanggal, int mulai, int selesai, String jenisKegiatan) {
+        super(nama, "Pengembangan Diri", hari, tanggal, mulai, selesai);
+        this.jenisKegiatan = jenisKegiatan;
+    }
+
+    @Override
+    String getInfo() {
+        return super.getInfo() + " | jenis: " + jenisKegiatan;
+    }
+}
+// PRIORITAS MANAGER 
+class PrioritasManager {
+    void hitungPrioritas(Kegiatan k) {
+        switch (k.kategori) {
+            case "Deadline Tugas":
+                k.setPrioritas(1);
+                break;
+            case "Kuliah Kelas":
+            case "Praktikum":
+                k.setPrioritas(2);
+                break;
+            case "Pengembangan Diri":
+                k.setPrioritas(3);
+                break;
+            default:
+                k.setPrioritas(4);
+        }
+    }
+
+    void updateSemuaPrioritas(Mahasiswa mhs) {
+        for (int i = 0; i < mhs.getJumlahKegiatan(); i++) {
+            hitungPrioritas(mhs.getDaftarKegiatan()[i]);
+        }
+    }
+}
+// JADWAL MANAGER 
+class JadwalManager {
+    void cekBentrok(Mahasiswa mhs) {
+        System.out.println("\nCek Bentrok Jadwal:");
+        for (int i = 0; i < mhs.getJumlahKegiatan(); i++) {
+            for (int j = i + 1; j < mhs.getJumlahKegiatan(); j++) {
+                Kegiatan a = mhs.getDaftarKegiatan()[i];
+                Kegiatan b = mhs.getDaftarKegiatan()[j];
+                if (a.hari.equals(b.hari)) {
+                    boolean bentrok = a.jamMulai < b.jamSelesai && b.jamMulai < a.jamSelesai;
+                    if (bentrok) {
+                        System.out.println("Bentrok: " + a.namaKegiatan + " dengan " + b.namaKegiatan);
+                    }
+                }
+            }
+        }
+    }
+
+    int hitungTotalJam(Mahasiswa mhs) {
+        int total = 0;
+        for (int i = 0; i < mhs.getJumlahKegiatan(); i++) {
+            total += mhs.getDaftarKegiatan()[i].getDurasi();
+        }
+        return total;
+    }
+
+    void tampilPrioritasUtama(Mahasiswa mhs) {
+        if (mhs.getJumlahKegiatan() == 0) return;
+        Kegiatan utama = mhs.getDaftarKegiatan()[0];
+        for (int i = 1; i < mhs.getJumlahKegiatan(); i++) {
+            if (mhs.getDaftarKegiatan()[i].prioritas < utama.prioritas) {
+                utama = mhs.getDaftarKegiatan()[i];
+            }
+        }
+        System.out.println("\nYang paling penting dikerjakan:");
+        System.out.println(utama.getInfo());
+    }
+}
+```
