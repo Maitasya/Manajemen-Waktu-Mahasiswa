@@ -120,7 +120,8 @@ public class ManajemenWaktuMahasiswa {
         Mahasiswa mhs = new Mahasiswa(nama, nim);
         PrioritasManager pm = new PrioritasManager();
         JadwalManager jm = new JadwalManager();
-    // Input jadwal kuliah 1 semester
+
+        // Input jadwal kuliah 1 semester
         System.out.println("\nInput Jadwal Kuliah 1 Semester");
         System.out.print("Berapa jumlah mata kuliah? ");
         int jumlahMK = input.nextInt();
@@ -132,7 +133,7 @@ public class ManajemenWaktuMahasiswa {
             String matkul = input.nextLine();
             System.out.print("Hari: ");
             String hari = input.nextLine();
-            System.out.print("Tanggal mulai semester (dd-MM-yyyy): ");
+            System.out.print("Tanggal mulai semester: ");
             String tanggal = input.nextLine();
             System.out.print("Jam mulai: ");
             int mulai = input.nextInt();
@@ -142,7 +143,8 @@ public class ManajemenWaktuMahasiswa {
 
             mhs.tambahKegiatan(new Kuliah(matkul, hari, tanggal, mulai, selesai, matkul));
         }
-     // Input kegiatan lain
+
+        // Input kegiatan lain
         int pilih = 1;
         while (pilih == 1) {
             System.out.println("\nTambah kegiatan lain?");
@@ -171,14 +173,14 @@ public class ManajemenWaktuMahasiswa {
                     System.out.print("Deadline hari apa: ");
                     String deadlineHari = input.nextLine();
 
-                    System.out.print("Tanggal Deadline (dd-MM-yyyy): ");
+                    System.out.print("Tanggal Deadline: ");
                     String tanggalDeadline = input.nextLine();
 
                     System.out.print("Jam terakhir pengumpulan: ");
                     int jamSelesai = input.nextInt();
                     input.nextLine();
 
-                    int jamMulai = jamSelesai - 2; // durasi 2 jam
+                    int jamMulai = jamSelesai - 2; // durasi contoh 2 jam
                     mhs.tambahKegiatan(new DeadlineTugas(namaKegiatan, deadlineHari, tanggalDeadline, jamMulai, jamSelesai, deadlineHari));
 
                 } else if (jenis == 3) {
@@ -186,7 +188,7 @@ public class ManajemenWaktuMahasiswa {
                     String namaKegiatan = input.nextLine();
                     System.out.print("Hari: ");
                     String hariK = input.nextLine();
-                    System.out.print("Tanggal (dd-MM-yyyy): ");
+                    System.out.print("Tanggal: ");
                     String tanggalK = input.nextLine();
                     System.out.print("Jam mulai: ");
                     int mulai = input.nextInt();
@@ -200,9 +202,10 @@ public class ManajemenWaktuMahasiswa {
                 }
             }
         }
-    // Proses sistem
+
+        // Proses sistem
         pm.updateSemuaPrioritas(mhs);
-        mhs.lihatSemuaKegiatanUrut();
+        mhs.lihatSemuaKegiatanUrut(); // sudah pakai bubble sort
         jm.cekBentrok(mhs);
 
         int total = jm.hitungTotalJam(mhs);
@@ -213,7 +216,8 @@ public class ManajemenWaktuMahasiswa {
         System.out.println("\nProgram selesai");
     }
 }
-//  KELAS MAHASISWA 
+
+// KELAS MAHASISWA
 class Mahasiswa {
     String nama;
     String nim;
@@ -229,21 +233,13 @@ class Mahasiswa {
         daftarKegiatan[jumlahKegiatan] = k;
         jumlahKegiatan++;
     }
-    // ubah tanggal ke angka untuk sorting
-    int ubahTanggalKeAngka(String tanggal) {
-        String[] parts = tanggal.split("-");
-        int hari = Integer.parseInt(parts[0]);
-        int bulan = Integer.parseInt(parts[1]);
-        int tahun = Integer.parseInt(parts[2]);
-        return tahun * 10000 + bulan * 100 + hari;
-    }
-    // Urutkan kegiatan berdasarkan prioritas dan tanggal
+
+    // Tampilkan semua kegiatan rapi dan urut pakai bubble sort
     void lihatSemuaKegiatanUrut() {
+        // Bubble sort sederhana berdasarkan tanggal
         for (int i = 0; i < jumlahKegiatan - 1; i++) {
             for (int j = 0; j < jumlahKegiatan - i - 1; j++) {
-                if (daftarKegiatan[j].prioritas > daftarKegiatan[j + 1].prioritas ||
-                        (daftarKegiatan[j].prioritas == daftarKegiatan[j + 1].prioritas &&
-                                ubahTanggalKeAngka(daftarKegiatan[j].tanggal) > ubahTanggalKeAngka(daftarKegiatan[j + 1].tanggal))) {
+                if (daftarKegiatan[j].tanggal.compareTo(daftarKegiatan[j + 1].tanggal) > 0) {
                     Kegiatan temp = daftarKegiatan[j];
                     daftarKegiatan[j] = daftarKegiatan[j + 1];
                     daftarKegiatan[j + 1] = temp;
@@ -260,7 +256,8 @@ class Mahasiswa {
     Kegiatan[] getDaftarKegiatan() { return daftarKegiatan; }
     int getJumlahKegiatan() { return jumlahKegiatan; }
 }
-// KELAS KEGIATAN 
+
+// KELAS KEGIATAN
 class Kegiatan {
     String namaKegiatan;
     String kategori;
@@ -288,25 +285,24 @@ class Kegiatan {
                 namaKegiatan, kategori, hari, tanggal, jamMulai, jamSelesai, prioritas);
     }
 }
-// SUBCLASS KEGIATAN 
+
+// SUBCLASS KEGIATAN
 class Kuliah extends Kegiatan {
     String mataKuliah;
-
     Kuliah(String nama, String hari, String tanggal, int mulai, int selesai, String mataKuliah) {
         super(nama, "Kuliah Kelas", hari, tanggal, mulai, selesai);
         this.mataKuliah = mataKuliah;
     }
-
     @Override
     String getInfo() {
         return super.getInfo() + " | matkul: " + mataKuliah;
     }
 }
+
 class Praktikum extends Kegiatan {
     Praktikum(String nama, String hari, String tanggal, int mulai, int selesai) {
         super(nama, "Praktikum", hari, tanggal, mulai, selesai);
     }
-
     @Override
     String getInfo() { return super.getInfo(); }
 
@@ -315,7 +311,7 @@ class Praktikum extends Kegiatan {
         System.out.print("Nama Praktikum: ");
         String namaPraktikum = input.nextLine();
 
-    // Asistensi
+        // Asistensi
         System.out.println("\nASISTENSI");
         System.out.print("Hari Asistensi (kosong jika tidak ada): ");
         String hariA = input.nextLine();
@@ -330,7 +326,7 @@ class Praktikum extends Kegiatan {
             mhs.tambahKegiatan(new Praktikum("Asistensi " + namaPraktikum, hariA, tanggalA, mulaiA, selesaiA));
         }
 
-    // Praktikum utama
+        // Praktikum utama
         System.out.println("\nPRAKTIKUM UTAMA");
         System.out.print("Hari Praktikum utama: ");
         String hariP = input.nextLine();
@@ -343,7 +339,7 @@ class Praktikum extends Kegiatan {
         input.nextLine();
         mhs.tambahKegiatan(new Praktikum(namaPraktikum, hariP, tanggalP, mulaiP, selesaiP));
 
-    // Demo
+        // Demo
         System.out.println("\nDEMO");
         System.out.print("Hari Demo (kosong jika tidak ada): ");
         String hariD = input.nextLine();
@@ -359,58 +355,49 @@ class Praktikum extends Kegiatan {
         }
     }
 }
+
 class DeadlineTugas extends Kegiatan {
     String deadlineHari;
-
     DeadlineTugas(String nama, String hari, String tanggal, int mulai, int selesai, String deadlineHari) {
         super(nama, "Deadline Tugas", hari, tanggal, mulai, selesai);
-        this.deadlineHari = deadlineHari;
+        this.deadlineHari = deadlineHari; // diperbaiki
     }
-
     @Override
     String getInfo() {
         return super.getInfo() + " | deadline: " + deadlineHari;
     }
 }
+
 class PengembanganDiri extends Kegiatan {
     String jenisKegiatan;
-
     PengembanganDiri(String nama, String hari, String tanggal, int mulai, int selesai, String jenisKegiatan) {
         super(nama, "Pengembangan Diri", hari, tanggal, mulai, selesai);
         this.jenisKegiatan = jenisKegiatan;
     }
-
     @Override
     String getInfo() {
         return super.getInfo() + " | jenis: " + jenisKegiatan;
     }
 }
-// PRIORITAS MANAGER 
+
+// PRIORITAS MANAGER
 class PrioritasManager {
     void hitungPrioritas(Kegiatan k) {
-        if (k.kategori.equals("Deadline Tugas")) {
-            String[] parts = k.tanggal.split("-");
-            int hari = Integer.parseInt(parts[0]);
-            int bulan = Integer.parseInt(parts[1]);
-            int tahun = Integer.parseInt(parts[2]);
-            int tanggalAngka = tahun * 10000 + bulan * 100 + hari;
-            k.setPrioritas(tanggalAngka); // tanggal lebih kecil → prioritas lebih tinggi
-        } else if (k.kategori.equals("Kuliah Kelas") || k.kategori.equals("Praktikum")) {
-            k.setPrioritas(100000); // prioritas menengah
-        } else if (k.kategori.equals("Pengembangan Diri")) {
-            k.setPrioritas(200000); // prioritas rendah
-        } else {
-            k.setPrioritas(300000); // default
+        switch (k.kategori) {
+            case "Deadline Tugas": k.setPrioritas(1); break;
+            case "Kuliah Kelas":
+            case "Praktikum": k.setPrioritas(2); break;
+            case "Pengembangan Diri": k.setPrioritas(3); break;
+            default: k.setPrioritas(4);
         }
     }
-
     void updateSemuaPrioritas(Mahasiswa mhs) {
         for (int i = 0; i < mhs.getJumlahKegiatan(); i++)
             hitungPrioritas(mhs.getDaftarKegiatan()[i]);
     }
 }
 
-// JADWAL MANAGER 
+// JADWAL MANAGER
 class JadwalManager {
     void cekBentrok(Mahasiswa mhs) {
         System.out.println("\nCek Bentrok Jadwal:");
@@ -426,7 +413,6 @@ class JadwalManager {
             }
         }
     }
-
     int hitungTotalJam(Mahasiswa mhs) {
         int total = 0;
         for (int i = 0; i < mhs.getJumlahKegiatan(); i++)
@@ -550,11 +536,4 @@ Meskipun sistem Manajemen Waktu Mahasiswa ini sudah cukup membantu, ada beberapa
 
 > Catatan: Untuk mengatasi ini, program bisa dikembangkan dengan fitur `penyimpanan file` (misal CSV, TXT, atau database sederhana) sehingga data jadwal bisa tersimpan dan dibuka kembali kapan saja.
 
-selain itu, prioritas kegiatan masih sederhana dan belum mempertimbangkan urgensi atau bobot penting dari tiap kegiatan.  
-
-- Sistem hanya mengurutkan kegiatan berdasarkan kategori (Deadline Tugas, Kuliah/Praktikum, Pengembangan Diri) dan tanggal sederhana.  
-- Kegiatan yang memiliki deadline lebih dekat atau lebih mendesak belum otomatis diprioritaskan lebih tinggi.  
-- Hal ini membuat mahasiswa terkadang sulit menentukan kegiatan mana yang harus dikerjakan terlebih dahulu saat jadwal padat.  
-
-> Catatan: Untuk mengatasinya, sistem bisa dikembangkan dengan algoritma `prioritas dinamis` yang mempertimbangkan deadline, durasi, dan tingkat kepentingan setiap kegiatan.
       
