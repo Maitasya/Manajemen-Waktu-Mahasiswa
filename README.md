@@ -440,3 +440,88 @@ class JadwalManager {
 ##### Informasi keseluruhan jadwal
 
 <img width="1318" height="763" alt="Screenshot 2026-03-24 142809" src="https://github.com/user-attachments/assets/0c8f621c-8a4c-491f-9fff-94c3d9f16efe" />
+
+#### Prinsip-prinsip OOP yang diterapkan
+
+1. Encapsulation (Enkapsulasi / menyimpan data di satu tempat)
+- Penjelasan: Setiap kelas menyimpan data dan fungsi yang saling berkaitan sehingga manipulasi data bisa melalui method tertentu.
+- Bukti dari kode:
+  - Kelas `Mahasiswa` menyimpan:
+    - `String nama`
+    - `String nim`
+    - `Kegiatan[] daftarKegiatan`
+    - `int jumlahKegiatan`
+    - Method: `tambahKegiatan()`, `lihatSemuaKegiatanUrut()`
+  - Kelas `Kegiatan` menyimpan:
+    - `String namaKegiatan`, `String kategori`, `String hari`, `String tanggal`
+    - `int jamMulai`, `int jamSelesai`, `int prioritas`
+    - Method: `getInfo()`, `getDurasi()`, `setPrioritas()`
+
+2. Inheritance (Pewarisan / turun-temurun)
+- Penjelasan: Kelas induk mewariskan atribut dan method ke subclass, sehingga subclass bisa menggunakan dan menambahkan fungsi baru.
+- Bukti dari kode:
+  - Kelas induk: `Kegiatan`
+  - Subclass:
+    - `Kuliah` → menambahkan `String mataKuliah` + override `getInfo()`
+    - `Praktikum` → menambahkan method `tambahPraktikumLengkap()` + override `getInfo()`
+    - `DeadlineTugas` → menambahkan `String deadlineHari` + override `getInfo()`
+    - `PengembanganDiri` → menambahkan `String jenisKegiatan` + override `getInfo()`
+
+3. Polymorphism (Banyak bentuk / fleksibel)
+- Penjelasan: Subclass bisa mengubah atau menyesuaikan perilaku method dari kelas induk, sehingga satu method bisa menampilkan bentuk berbeda sesuai tipe subclass.
+- Bukti dari kode:
+  - Semua subclass `Kegiatan` memiliki method `getInfo()`, tapi hasilnya berbeda:
+    - `Kuliah.getInfo()` → menambahkan info `mataKuliah`
+    - `Praktikum.getInfo()` → tetap menampilkan info dasar kegiatan
+    - `DeadlineTugas.getInfo()` → menambahkan info `deadlineHari`
+    - `PengembanganDiri.getInfo()` → menambahkan info `jenisKegiatan`
+
+4. Abstraction (Abstraksi / fokus ke yang penting)
+- Penjelasan: Pengguna cukup fokus ke fungsi utama, tanpa perlu tahu detail implementasi di dalamnya.
+- Bukti dari kode:
+  - Mahasiswa cukup memanggil:
+    - `lihatSemuaKegiatanUrut()` → menampilkan jadwal urut tanpa perlu tahu algoritma pengurutan tanggal
+    - `tampilPrioritasUtama()` → menampilkan kegiatan paling penting tanpa tahu cara perhitungan prioritas
+  - `PrioritasManager` dan `JadwalManager` menangani semua perhitungan prioritas, cek bentrok, dan total jam
+
+5. Modularitas (Pisah-pisah fungsi supaya rapi)
+- Penjelasan: Fungsi dikelompokkan sesuai tanggung jawab agar kode rapi dan mudah dikembangkan.
+- Bukti dari kode:
+  - `PrioritasManager` → khusus untuk:
+    - `hitungPrioritas(Kegiatan k)`
+    - `updateSemuaPrioritas(Mahasiswa mhs)`
+  - `JadwalManager` → khusus untuk:
+    - `cekBentrok(Mahasiswa mhs)`
+    - `hitungTotalJam(Mahasiswa mhs)`
+    - `tampilPrioritasUtama(Mahasiswa mhs)`
+  - Dengan pemisahan ini, jika mau menambahkan fitur baru seperti notifikasi atau pengingat, cukup buat class baru tanpa mengubah kelas lain.
+ 
+#### Keunikan Sistem Manajemen Waktu Mahasiswa
+
+Sistem ini punya beberapa keunikan yang membedakan dari metode atau catatan individu lain:
+
+1. Multi-kegiatan & Adaptif
+Program ini mampu menangani berbagai jenis kegiatan sekaligus, mulai dari kuliah, praktikum, asistensi, demo, deadline tugas, organisasi, seminar, hingga pelatihan. Banyak mahasiswa biasanya hanya mencatat satu jenis kegiatan saja, misalnya hanya kuliah, sehingga jadwal lain sering terlewat. Dengan sistem ini, seluruh kegiatan bisa tersimpan dan teratur di satu tempat.
+
+2. Deteksi Bentrok Otomatis
+Sistem dapat mendeteksi jadwal yang saling bertabrakan secara otomatis tanpa perlu dicek manual. Hal ini membantu mahasiswa mengatur prioritas dan memutuskan mana yang harus dikerjakan terlebih dahulu, yang jarang ditemukan di metode catatan konvensional.
+
+3. Prioritas Dinamis
+Prioritas setiap kegiatan dihitung berdasarkan kategori, sehingga mahasiswa tahu kegiatan mana yang paling penting setiap hari. Contohnya, `Deadline Tugas` otomatis menjadi prioritas 1, sedangkan kegiatan pengembangan diri seperti seminar atau pelatihan masuk prioritas 3. Dengan cara ini, keputusan terkait waktu bisa lebih cepat dan efisien.
+
+4. User-friendly & Interaktif
+Input data dilakukan langsung melalui terminal dengan menu yang interaktif, sehingga mahasiswa bisa menambah kegiatan baru dengan mudah. Output menampilkan jadwal lengkap, total jam kegiatan, serta prioritas utama, sehingga mahasiswa bisa memvisualisasikan aktivitas hariannya dengan jelas.
+
+5. Sistem Fleksibel
+Sistem ini fleksibel dan bisa diadaptasi untuk semester baru atau kegiatan tambahan kapan saja tanpa mengubah struktur dasar. Ini berbeda dengan individu lain yang biasanya hanya membuat jadwal statis atau tabel Excel sederhana, yang kurang adaptif terhadap perubahan mendadak.
+
+#### Kekurangan Program
+
+Meskipun sistem Manajemen Waktu Mahasiswa ini sudah cukup membantu, ada beberapa keterbatasan, salah satunya adalah data belum bisa disimpan secara permanen.  
+
+- Saat program ditutup, semua data yang dimasukkan akan hilang karena hanya tersimpan di memori sementara (RAM).  
+- Mahasiswa harus memasukkan ulang semua jadwal setiap kali program dijalankan kembali.  
+- Kekurangan ini membuat sistem kurang efisien jika ingin digunakan untuk semester penuh atau kegiatan jangka panjang.  
+
+> Catatan: Untuk mengatasi ini, program bisa dikembangkan dengan fitur `penyimpanan file` (misal CSV, TXT, atau database sederhana) sehingga data jadwal bisa tersimpan dan dibuka kembali kapan saja.
+      
