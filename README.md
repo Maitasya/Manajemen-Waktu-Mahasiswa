@@ -92,3 +92,5 @@ Class diagram ini menggambarkan sistem manajemen waktu mahasiswa.
 - PrioritasManager menghitung dan memperbarui prioritas kegiatan mahasiswa.
 - JadwalManager mengecek bentrok jadwal, menghitung total jam kegiatan, dan menampilkan prioritas utama.
 - Relasinya: Mahasiswa memiliki banyak kegiatan dan menggunakan PrioritasManager serta JadwalManager untuk mengatur jadwal dan prioritas.
+
+#### Implementasi Kode
