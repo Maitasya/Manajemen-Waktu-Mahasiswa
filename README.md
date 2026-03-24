@@ -512,18 +512,23 @@ class JadwalManager {
 Sistem ini punya beberapa keunikan yang membedakan dari metode atau catatan individu lain:
 
 1. Multi-kegiatan & Adaptif
+
 Program ini mampu menangani berbagai jenis kegiatan sekaligus, mulai dari kuliah, praktikum, asistensi, demo, deadline tugas, organisasi, seminar, hingga pelatihan. Banyak mahasiswa biasanya hanya mencatat satu jenis kegiatan saja, misalnya hanya kuliah, sehingga jadwal lain sering terlewat. Dengan sistem ini, seluruh kegiatan bisa tersimpan dan teratur di satu tempat.
 
 2. Deteksi Bentrok Otomatis
+
 Sistem dapat mendeteksi jadwal yang saling bertabrakan secara otomatis tanpa perlu dicek manual. Hal ini membantu mahasiswa mengatur prioritas dan memutuskan mana yang harus dikerjakan terlebih dahulu, yang jarang ditemukan di metode catatan konvensional.
 
 3. Prioritas Dinamis
+
 Prioritas setiap kegiatan dihitung berdasarkan kategori, sehingga mahasiswa tahu kegiatan mana yang paling penting setiap hari. Contohnya, `Deadline Tugas` otomatis menjadi prioritas 1, sedangkan kegiatan pengembangan diri seperti seminar atau pelatihan masuk prioritas 3. Dengan cara ini, keputusan terkait waktu bisa lebih cepat dan efisien.
 
 4. User-friendly & Interaktif
+
 Input data dilakukan langsung melalui terminal dengan menu yang interaktif, sehingga mahasiswa bisa menambah kegiatan baru dengan mudah. Output menampilkan jadwal lengkap, total jam kegiatan, serta prioritas utama, sehingga mahasiswa bisa memvisualisasikan aktivitas hariannya dengan jelas.
 
 5. Sistem Fleksibel
+
 Sistem ini fleksibel dan bisa diadaptasi untuk semester baru atau kegiatan tambahan kapan saja tanpa mengubah struktur dasar. Ini berbeda dengan individu lain yang biasanya hanya membuat jadwal statis atau tabel Excel sederhana, yang kurang adaptif terhadap perubahan mendadak.
 
 #### Kekurangan Program
@@ -535,5 +540,4 @@ Meskipun sistem Manajemen Waktu Mahasiswa ini sudah cukup membantu, ada beberapa
 - Kekurangan ini membuat sistem kurang efisien jika ingin digunakan untuk semester penuh atau kegiatan jangka panjang.  
 
 > Catatan: Untuk mengatasi ini, program bisa dikembangkan dengan fitur `penyimpanan file` (misal CSV, TXT, atau database sederhana) sehingga data jadwal bisa tersimpan dan dibuka kembali kapan saja.
-
-      
+  
