@@ -102,7 +102,7 @@ Class diagram ini menggambarkan sistem manajemen waktu mahasiswa.
 ```java
 import java.util.Scanner;
 // MAIN PROGRAM 
-public class ManajemenWaktuMahasiswa {
+public class ManajemenWaktuMahasiswa.java {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
