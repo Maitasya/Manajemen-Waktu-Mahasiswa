@@ -529,10 +529,6 @@ Prioritas setiap kegiatan dihitung berdasarkan kategori, sehingga mahasiswa tahu
 
 Input data dilakukan langsung melalui terminal dengan menu yang interaktif, sehingga mahasiswa bisa menambah kegiatan baru dengan mudah. Output menampilkan jadwal lengkap, total jam kegiatan, serta prioritas utama, sehingga mahasiswa bisa memvisualisasikan aktivitas hariannya dengan jelas.
 
-5. Sistem Fleksibel
-
-Sistem ini fleksibel dan bisa diadaptasi untuk semester baru atau kegiatan tambahan kapan saja tanpa mengubah struktur dasar. Ini berbeda dengan individu lain yang biasanya hanya membuat jadwal statis atau tabel Excel sederhana, yang kurang adaptif terhadap perubahan mendadak.
-
 #### Kekurangan Program
 
 Meskipun sistem Manajemen Waktu Mahasiswa ini sudah cukup membantu, ada beberapa keterbatasan, salah satunya adalah data belum bisa disimpan secara permanen.  
