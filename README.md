@@ -137,7 +137,7 @@ tampilkan() → menampilkan data kegiatan
 Data kegiatan tidak diubah langsung, tetapi melalui constructor:
 Kegiatan(String namaKegiatan, int prioritas)
 
-3. Inheritance (Pewarisan / turun-temurun)
+2. Inheritance (Pewarisan / turun-temurun)
 
 Penjelasan:
 Inheritance memungkinkan class turunan (subclass) mewarisi atribut dan method dari class induk sehingga tidak perlu menulis ulang kode yang sama.
