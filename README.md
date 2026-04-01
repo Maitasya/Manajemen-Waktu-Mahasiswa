@@ -24,157 +24,178 @@ diagram hasil di mermaid.ai
 
 #### Implementasi Kode
 
-public class ManajemenWaktuMahasiswa {
+class Kegiatan {
+
+    private String namaKegiatan;
+    private int prioritas;
+
+    public Kegiatan(String namaKegiatan, int prioritas) {
+        this.namaKegiatan = namaKegiatan;
+        this.prioritas = prioritas;
+    }
+
+    public String getNamaKegiatan() {
+        return namaKegiatan;
+    }
+
+    public int getPrioritas() {
+        return prioritas;
+    }
+
+    public void tampilkan() {
+        System.out.println(
+        namaKegiatan + " | Prioritas: " + prioritas);
+    }
+}
+
+
+public class Main {
 
     public static void main(String[] args) {
 
-        // Data mahasiswa (langsung diisi, tanpa input)
         String nama = "May";
         String nim = "230123456";
 
-        // Jadwal kegiatan (contoh kasus bentrok & deadline)
-        String[] kegiatan = {
-            "Kuliah Struktur Data (08.00 - 10.00)",
-            "Praktikum Struktur Data (10.00 - 12.00)",
-            "Deadline Tugas Algoritma (12.00)",
-            "Asistensi Basis Data (13.00 - 15.00)",
-            "Rapat Organisasi (19.00 - 20.00)",
-            "Demo Project (20.00)"
+        Kegiatan[] daftar = {
+
+            new Kegiatan(
+            "Kuliah Struktur Data (08.00-10.00)", 2),
+
+            new Kegiatan(
+            "Praktikum Struktur Data (10.00-12.00)", 1),
+
+            new Kegiatan(
+            "Deadline Tugas Algoritma (12.00)", 1),
+
+            new Kegiatan(
+            "Asistensi Basis Data (13.00-15.00)", 3),
+
+            new Kegiatan(
+            "Rapat Organisasi (19.00-20.00)", 4),
+
+            new Kegiatan(
+            "Demo Project (20.00)", 1)
         };
 
-        // Prioritas (1 = sangat penting)
-        int[] prioritas = {1, 1, 1, 2, 3, 1};
 
-        System.out.println("=== Tracker Manajemen Waktu Mahasiswa ===");
+        System.out.println(
+        "=== MANAJEMEN WAKTU MAHASISWA ===");
+
         System.out.println("Nama : " + nama);
         System.out.println("NIM  : " + nim);
 
-        System.out.println("\nDaftar Kegiatan Hari Ini:");
-        
-        for (int i = 0; i < kegiatan.length; i++) {
-            System.out.println((i+1) + ". " + kegiatan[i] + 
-                               " | Prioritas: " + prioritas[i]);
+
+        System.out.println("\nDaftar Kegiatan:");
+        for (int i = 0; i < daftar.length; i++) {
+            daftar[i].tampilkan();
         }
 
-        // mencari prioritas tertinggi
-        int prioritasTertinggi = prioritas[0];
-        int index = 0;
 
-        for (int i = 1; i < prioritas.length; i++) {
-            if (prioritas[i] < prioritasTertinggi) {
-                prioritasTertinggi = prioritas[i];
-                index = i;
+        // sorting prioritas
+        for (int i = 0; i < daftar.length-1; i++) {
+
+            for (int j = 0; j < daftar.length-1-i; j++) {
+
+                if (daftar[j].getPrioritas() >
+                    daftar[j+1].getPrioritas()) {
+
+                    Kegiatan temp = daftar[j];
+                    daftar[j] = daftar[j+1];
+                    daftar[j+1] = temp;
+                }
             }
         }
 
-        System.out.println("\nKegiatan yang harus diprioritaskan:");
-        System.out.println(kegiatan[index]);
+
+        System.out.println(
+        "\nPrioritas utama:");
+        daftar[0].tampilkan();
     }
 }
+
+
 #### Screenshot output
 
-##### Input masukan awal jadwal kelas harian
-
-<img width="1348" height="821" alt="Screenshot 2026-03-24 142657" src="https://github.com/user-attachments/assets/b700efdc-5f47-4f3b-9ee9-201ba28e7784" />
-
-##### Input jadwal kegitaan praktikum
-
-<img width="1355" height="818" alt="Screenshot 2026-03-24 142712" src="https://github.com/user-attachments/assets/855c4d60-fa96-49ee-bc95-c1c060a75b6e" />
-
-##### Input jadwal kegitaan deadline tugas
-
-<img width="1367" height="477" alt="Screenshot 2026-03-24 142736" src="https://github.com/user-attachments/assets/5719a3ea-579e-4a39-b35d-85e1db6958e5" />
-
-##### Input jadwal kegitaan pengembangan diri
-
-<img width="1372" height="822" alt="Screenshot 2026-03-24 142751" src="https://github.com/user-attachments/assets/febcfba4-bb97-42c1-82cc-b51c137bb8f0" />
-
-##### Informasi keseluruhan jadwal
-
-<img width="1318" height="763" alt="Screenshot 2026-03-24 142809" src="https://github.com/user-attachments/assets/0c8f621c-8a4c-491f-9fff-94c3d9f16efe" />
+<img width="919" height="633" alt="image" src="https://github.com/user-attachments/assets/30ad847d-84a0-4e0f-a1c5-e77e0b92f316" />
 
 #### Prinsip-prinsip OOP yang diterapkan
 
 1. Encapsulation (Enkapsulasi / menyimpan data di satu tempat)
-- Penjelasan: Setiap kelas menyimpan data dan fungsi yang saling berkaitan sehingga manipulasi data bisa melalui method tertentu.
-- Bukti dari kode:
-  - Kelas `Mahasiswa` menyimpan:
-    - `String nama`
-    - `String nim`
-    - `Kegiatan[] daftarKegiatan`
-    - `int jumlahKegiatan`
-    - Method: `tambahKegiatan()`, `lihatSemuaKegiatanUrut()`
-  - Kelas `Kegiatan` menyimpan:
-    - `String namaKegiatan`, `String kategori`, `String hari`, `String tanggal`
-    - `int jamMulai`, `int jamSelesai`, `int prioritas`
-    - Method: `getInfo()`, `getDurasi()`, `setPrioritas()`
-
+Penjelasan:
+Setiap class menyimpan data (atribut) dan fungsi (method) yang saling berkaitan. Data dibuat private agar tidak bisa diubah sembarangan, tetapi diakses melalui method tertentu.
+Bukti dari kode:
+Kelas Kegiatan menyimpan:
+private String namaKegiatan
+private int prioritas
+Method dalam class:
+getNamaKegiatan() → mengambil nama kegiatan
+getPrioritas() → mengambil nilai prioritas
+tampilkan() → menampilkan data kegiatan
+Data kegiatan tidak diubah langsung, tetapi melalui constructor:
+Kegiatan(String namaKegiatan, int prioritas)
 2. Inheritance (Pewarisan / turun-temurun)
-- Penjelasan: Kelas induk mewariskan atribut dan method ke subclass, sehingga subclass bisa menggunakan dan menambahkan fungsi baru.
-- Bukti dari kode:
-  - Kelas induk: `Kegiatan`
-  - Subclass:
-    - `Kuliah` → menambahkan `String mataKuliah` + override `getInfo()`
-    - `Praktikum` → menambahkan method `tambahPraktikumLengkap()` + override `getInfo()`
-    - `DeadlineTugas` → menambahkan `String deadlineHari` + override `getInfo()`
-    - `PengembanganDiri` → menambahkan `String jenisKegiatan` + override `getInfo()`
+Penjelasan:
+Inheritance memungkinkan class turunan (subclass) mewarisi atribut dan method dari class induk sehingga tidak perlu menulis ulang kode yang sama.
+Bukti dari kode (konsep yang bisa diterapkan):
+Kelas induk: Kegiatan
+Subclass yang dapat dibuat:
+Kuliah → menambahkan String mataKuliah
+Praktikum → menambahkan String ruangLab
+Deadline → menambahkan String tanggalDeadline
+Semua subclass mewarisi:
+namaKegiatan
+prioritas
+method tampilkan()
 
+Contoh konsep:
+
+class Kuliah extends Kegiatan {
+    String mataKuliah;
+}
 3. Polymorphism (Banyak bentuk / fleksibel)
-- Penjelasan: Subclass bisa mengubah atau menyesuaikan perilaku method dari kelas induk, sehingga satu method bisa menampilkan bentuk berbeda sesuai tipe subclass.
-- Bukti dari kode:
-  - Semua subclass `Kegiatan` memiliki method `getInfo()`, tapi hasilnya berbeda:
-    - `Kuliah.getInfo()` → menambahkan info `mataKuliah`
-    - `Praktikum.getInfo()` → tetap menampilkan info dasar kegiatan
-    - `DeadlineTugas.getInfo()` → menambahkan info `deadlineHari`
-    - `PengembanganDiri.getInfo()` → menambahkan info `jenisKegiatan`
-
+Penjelasan:
+Polymorphism memungkinkan satu method digunakan oleh banyak object dengan hasil yang berbeda tergantung object yang memanggilnya.
+Bukti dari kode:
+Method yang digunakan:
+tampilkan()
+Dipanggil oleh banyak object:
+k1.tampilkan()
+k2.tampilkan()
+k3.tampilkan()
+dst.
+Walaupun method sama, isi yang ditampilkan berbeda karena data tiap object berbeda.
+Loop juga menunjukkan polymorphism:
+for(int i=0; i<daftar.length; i++){
+    daftar[i].tampilkan();
+}
 4. Abstraction (Abstraksi / fokus ke yang penting)
-- Penjelasan: Pengguna cukup fokus ke fungsi utama, tanpa perlu tahu detail implementasi di dalamnya.
-- Bukti dari kode:
-  - Mahasiswa cukup memanggil:
-    - `lihatSemuaKegiatanUrut()` → menampilkan jadwal urut tanpa perlu tahu algoritma pengurutan tanggal
-    - `tampilPrioritasUtama()` → menampilkan kegiatan paling penting tanpa tahu cara perhitungan prioritas
-  - `PrioritasManager` dan `JadwalManager` menangani semua perhitungan prioritas, cek bentrok, dan total jam
-
-5. Modularitas (Pisah-pisah fungsi supaya rapi)
-- Penjelasan: Fungsi dikelompokkan sesuai tanggung jawab agar kode rapi dan mudah dikembangkan.
-- Bukti dari kode:
-  - `PrioritasManager` → khusus untuk:
-    - `hitungPrioritas(Kegiatan k)`
-    - `updateSemuaPrioritas(Mahasiswa mhs)`
-  - `JadwalManager` → khusus untuk:
-    - `cekBentrok(Mahasiswa mhs)`
-    - `hitungTotalJam(Mahasiswa mhs)`
-    - `tampilPrioritasUtama(Mahasiswa mhs)`
-  - Dengan pemisahan ini, jika mau menambahkan fitur baru seperti notifikasi atau pengingat, cukup buat class baru tanpa mengubah kelas lain.
+Penjelasan:
+Abstraction menyederhanakan penggunaan program sehingga user hanya melihat fungsi utama tanpa perlu mengetahui proses detail di dalam program.
+Bukti dari kode:
+User cukup menjalankan program untuk melihat:
+daftar kegiatan
+urutan prioritas
+kegiatan paling penting
+Detail proses seperti sorting tidak terlihat oleh user:
+for(int i=0;i<daftar.length-1;i++){
+    for(int j=0;j<daftar.length-1-i;j++){
+        if(daftar[j].getPrioritas() >
+           daftar[j+1].getPrioritas()){
+           
+           Kegiatan temp = daftar[j];
+           daftar[j] = daftar[j+1];
+           daftar[j+1] = temp;
+        }
+    }
+}
+User hanya melihat hasil akhir tanpa perlu memahami algoritma sorting.
  
 #### Keunikan Sistem Manajemen Waktu Mahasiswa
 
-Sistem ini punya beberapa keunikan yang membedakan dari metode atau catatan individu lain:
-
-1. Multi-kegiatan & Adaptif
-
-Program ini mampu menangani berbagai jenis kegiatan sekaligus, mulai dari kuliah, praktikum, asistensi, demo, deadline tugas, organisasi, seminar, hingga pelatihan. Banyak mahasiswa biasanya hanya mencatat satu jenis kegiatan saja, misalnya hanya kuliah, sehingga jadwal lain sering terlewat. Dengan sistem ini, seluruh kegiatan bisa tersimpan dan teratur di satu tempat.
-
-2. Deteksi Bentrok Otomatis
-
-Sistem dapat mendeteksi jadwal yang saling bertabrakan secara otomatis tanpa perlu dicek manual. Hal ini membantu mahasiswa mengatur prioritas dan memutuskan mana yang harus dikerjakan terlebih dahulu, yang jarang ditemukan di metode catatan konvensional.
-
-3. Prioritas Dinamis
-
-Prioritas setiap kegiatan dihitung berdasarkan kategori, sehingga mahasiswa tahu kegiatan mana yang paling penting setiap hari. Contohnya, `Deadline Tugas` otomatis menjadi prioritas 1, sedangkan kegiatan pengembangan diri seperti seminar atau pelatihan masuk prioritas 3. Dengan cara ini, keputusan terkait waktu bisa lebih cepat dan efisien.
-
-4. User-friendly & Interaktif
-
-Input data dilakukan langsung melalui terminal dengan menu yang interaktif, sehingga mahasiswa bisa menambah kegiatan baru dengan mudah. Output menampilkan jadwal lengkap, total jam kegiatan, serta prioritas utama, sehingga mahasiswa bisa memvisualisasikan aktivitas hariannya dengan jelas.
-
-#### Kekurangan Program
-
-Meskipun sistem Manajemen Waktu Mahasiswa ini sudah cukup membantu, ada beberapa keterbatasan, salah satunya adalah data belum bisa disimpan secara permanen.  
-
-- Saat program ditutup, semua data yang dimasukkan akan hilang karena hanya tersimpan di memori sementara (RAM).  
-- Mahasiswa harus memasukkan ulang semua jadwal setiap kali program dijalankan kembali.  
-- Kekurangan ini membuat sistem kurang efisien jika ingin digunakan untuk semester penuh atau kegiatan jangka panjang.  
-
-> Catatan: Untuk mengatasi ini, program bisa dikembangkan dengan fitur `penyimpanan file` (misal CSV, TXT, atau database sederhana) sehingga data jadwal bisa tersimpan dan dibuka kembali kapan saja.
-  
+1. Keunikan Sistem Manajemen Waktu Mahasiswa
+2. Prioritas otomatis → setiap kegiatan memiliki tingkat prioritas sehingga mudah menentukan mana yang paling penting.
+3. Pengurutan kegiatan → jadwal dapat diurutkan otomatis berdasarkan prioritas.
+4. Fokus kebutuhan mahasiswa → mencakup kuliah, praktikum, deadline tugas, organisasi, dan seminar.
+5. Mengurangi lupa deadline → semua kegiatan tercatat dalam satu sistem.
+6. Berbasis OOP → data tersusun rapi dalam bentuk class dan object sehingga mudah dikembangkan.
+7. Mudah dikembangkan → bisa ditambah fitur notifikasi, pengingat, dan cek bentrok jadwal.
