@@ -49,7 +49,7 @@ class Kegiatan {
 }
 
 
-public class Main {
+public class App {
 
     public static void main(String[] args) {
 
@@ -91,7 +91,7 @@ public class Main {
         }
 
 
-        // sorting prioritas
+        // sorting prioritas (Bubble Sort)
         for (int i = 0; i < daftar.length-1; i++) {
 
             for (int j = 0; j < daftar.length-1-i; j++) {
@@ -116,7 +116,7 @@ public class Main {
 
 #### Screenshot output
 
-<img width="919" height="633" alt="image" src="https://github.com/user-attachments/assets/30ad847d-84a0-4e0f-a1c5-e77e0b92f316" />
+<img width="1252" height="586" alt="image" src="https://github.com/user-attachments/assets/c5378481-828f-4574-b18e-91cc5e25c7b5" />
 
 #### Prinsip-prinsip OOP yang diterapkan
 
