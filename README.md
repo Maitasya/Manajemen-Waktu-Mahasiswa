@@ -149,7 +149,7 @@ public void setJamSelesai(int jamSelesai) { this.jamSelesai = jamSelesai; }
 Menyediakan method untuk digunakan oleh user tanpa perlu mengetahui detail implementasi.
 
 Bukti kode:
-````java
+```java
 public void tampilkan() {
     System.out.printf("%-30s | %-8d | %02d:00-%02d:00\n", namaKegiatan, prioritas, jamMulai, jamSelesai);
 }
@@ -189,9 +189,18 @@ public void tampilkan() {
  
 #### Keunikan Sistem Manajemen Waktu Mahasiswa
 
-1. Prioritas otomatis → setiap kegiatan memiliki tingkat prioritas sehingga mudah menentukan mana yang paling penting.
-2. Pengurutan kegiatan → jadwal dapat diurutkan otomatis berdasarkan prioritas.
-3. Fokus kebutuhan mahasiswa → mencakup kuliah, praktikum, deadline tugas, organisasi, dan seminar.
-4. Mengurangi lupa deadline → semua kegiatan tercatat dalam satu sistem.
-5. Berbasis OOP → data tersusun rapi dalam bentuk class dan object sehingga mudah dikembangkan.
-6. Mudah dikembangkan → bisa ditambah fitur notifikasi, pengingat, dan cek bentrok jadwal.
+# Keunikan Sistem Manajemen Waktu Mahasiswa
+
+Program ini memiliki beberapa keunikan yang membedakannya dari cara individu lain mengatur waktu secara manual:
+
+1. **Deteksi Jadwal Bentrok**  
+   Program otomatis mendeteksi jika ada jadwal yang bertabrakan sehingga mahasiswa dapat segera menyesuaikan prioritas.
+
+2. **Prioritas Berdasarkan Kepentingan dan Deadline**  
+   Setiap kegiatan memiliki atribut prioritas, dan program memberikan rekomendasi kegiatan yang harus dilakukan terlebih dahulu.
+
+3. **Perhitungan Total Jam Aktivitas**  
+   Program menghitung total jam kegiatan harian secara otomatis, membantu mahasiswa memahami beban waktu mereka.
+
+4. **OOP Lengkap dan Terstruktur**  
+   Menggunakan prinsip Encapsulation, Abstraction, Inheritance, dan Polymorphism sehingga kode lebih rapi, mudah dikembangkan, dan fleksibel dibandingkan pencatatan manual.
