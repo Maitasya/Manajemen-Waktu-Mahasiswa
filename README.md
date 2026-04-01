@@ -23,7 +23,7 @@ diagram hasil di mermaid.ai
 <img width="660" height="1264" alt="mermaid-diagram" src="https://github.com/user-attachments/assets/e7a3c895-88db-4c96-836a-a39c3e376c88" />
 
 #### Implementasi Kode
-
+```java
 class Kegiatan {
 
     private String namaKegiatan;
@@ -112,7 +112,7 @@ public class Main {
         daftar[0].tampilkan();
     }
 }
-
+```
 
 #### Screenshot output
 
@@ -127,13 +127,15 @@ Bukti dari kode:
 Kelas Kegiatan menyimpan:
 private String namaKegiatan
 private int prioritas
+
 Method dalam class:
 getNamaKegiatan() → mengambil nama kegiatan
 getPrioritas() → mengambil nilai prioritas
 tampilkan() → menampilkan data kegiatan
 Data kegiatan tidak diubah langsung, tetapi melalui constructor:
 Kegiatan(String namaKegiatan, int prioritas)
-2. Inheritance (Pewarisan / turun-temurun)
+
+3. Inheritance (Pewarisan / turun-temurun)
 Penjelasan:
 Inheritance memungkinkan class turunan (subclass) mewarisi atribut dan method dari class induk sehingga tidak perlu menulis ulang kode yang sama.
 Bukti dari kode (konsep yang bisa diterapkan):
@@ -148,10 +150,11 @@ prioritas
 method tampilkan()
 
 Contoh konsep:
-
+```java
 class Kuliah extends Kegiatan {
     String mataKuliah;
 }
+```
 3. Polymorphism (Banyak bentuk / fleksibel)
 Penjelasan:
 Polymorphism memungkinkan satu method digunakan oleh banyak object dengan hasil yang berbeda tergantung object yang memanggilnya.
@@ -165,9 +168,11 @@ k3.tampilkan()
 dst.
 Walaupun method sama, isi yang ditampilkan berbeda karena data tiap object berbeda.
 Loop juga menunjukkan polymorphism:
+```java
 for(int i=0; i<daftar.length; i++){
     daftar[i].tampilkan();
 }
+```
 4. Abstraction (Abstraksi / fokus ke yang penting)
 Penjelasan:
 Abstraction menyederhanakan penggunaan program sehingga user hanya melihat fungsi utama tanpa perlu mengetahui proses detail di dalam program.
@@ -176,7 +181,9 @@ User cukup menjalankan program untuk melihat:
 daftar kegiatan
 urutan prioritas
 kegiatan paling penting
+
 Detail proses seperti sorting tidak terlihat oleh user:
+```java
 for(int i=0;i<daftar.length-1;i++){
     for(int j=0;j<daftar.length-1-i;j++){
         if(daftar[j].getPrioritas() >
@@ -188,6 +195,7 @@ for(int i=0;i<daftar.length-1;i++){
         }
     }
 }
+```
 User hanya melihat hasil akhir tanpa perlu memahami algoritma sorting.
  
 #### Keunikan Sistem Manajemen Waktu Mahasiswa
