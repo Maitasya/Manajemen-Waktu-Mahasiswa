@@ -116,97 +116,76 @@ public class App {
 
 #### Screenshot output
 
-<img width="1252" height="586" alt="image" src="https://github.com/user-attachments/assets/c5378481-828f-4574-b18e-91cc5e25c7b5" />
+<img width="1520" height="629" alt="image" src="https://github.com/user-attachments/assets/cdd31acf-cc42-4a6f-b69a-8297180eee1c" />
+/>
 
 #### Prinsip-prinsip OOP yang diterapkan
 
-1. Encapsulation (Enkapsulasi / menyimpan data di satu tempat)
+1. Encapsulation (Enkapsulasi)
 
-Penjelasan:
-Setiap class menyimpan data (atribut) dan fungsi (method) yang saling berkaitan. Data dibuat private agar tidak bisa diubah sembarangan, tetapi diakses melalui method tertentu.
+Menyembunyikan atribut agar tidak bisa diakses langsung dari luar class, dan menyediakan getter/setter untuk manipulasi data.
 
-Bukti dari kode:
-Kelas Kegiatan menyimpan:
-`private String namaKegiatan`
-`private int prioritas`
-
-Method dalam class:
-getNamaKegiatan() → mengambil nama kegiatan
-getPrioritas() → mengambil nilai prioritas
-tampilkan() → menampilkan data kegiatan
-Data kegiatan tidak diubah langsung, tetapi melalui constructor:
-Kegiatan(String namaKegiatan, int prioritas)
-
-2. Inheritance (Pewarisan / turun-temurun)
-
-Penjelasan:
-Inheritance memungkinkan class turunan (subclass) mewarisi atribut dan method dari class induk sehingga tidak perlu menulis ulang kode yang sama.
-
-Bukti dari kode (konsep yang bisa diterapkan):
-Kelas induk: Kegiatan
-Subclass yang dapat dibuat:
-Kuliah → menambahkan String mataKuliah
-Praktikum → menambahkan String ruangLab
-Deadline → menambahkan String tanggalDeadline
-
-Semua subclass mewarisi:
-`namaKegiatan`
-`prioritas`
-`method tampilkan()`
-
-Contoh konsep:
+Bukti kode:
 ```java
-class Kuliah extends Kegiatan {
-    String mataKuliah;
+private String namaKegiatan;
+private int prioritas;
+private int jamMulai;
+private int jamSelesai;
+
+public String getNamaKegiatan() { return namaKegiatan; }
+public void setNamaKegiatan(String namaKegiatan) { this.namaKegiatan = namaKegiatan; }
+
+public int getPrioritas() { return prioritas; }
+public void setPrioritas(int prioritas) { this.prioritas = prioritas; }
+
+public int getJamMulai() { return jamMulai; }
+public void setJamMulai(int jamMulai) { this.jamMulai = jamMulai; }
+
+public int getJamSelesai() { return jamSelesai; }
+public void setJamSelesai(int jamSelesai) { this.jamSelesai = jamSelesai; }
+```
+2. Abstraction (Abstraksi)
+
+Menyediakan method untuk digunakan oleh user tanpa perlu mengetahui detail implementasi.
+
+Bukti kode:
+````java
+public void tampilkan() {
+    System.out.printf("%-30s | %-8d | %02d:00-%02d:00\n", namaKegiatan, prioritas, jamMulai, jamSelesai);
 }
 ```
-3. Polymorphism (Banyak bentuk / fleksibel)
+User cukup memanggil `tampilkan()` untuk menampilkan informasi kegiatan, tanpa perlu tahu bagaimana data disimpan atau diformat.
 
-Penjelasan:
-Polymorphism memungkinkan satu method digunakan oleh banyak object dengan hasil yang berbeda tergantung object yang memanggilnya.
+3. Inheritance (Pewarisan)
 
-Bukti dari kode:
-Method yang digunakan:
-`tampilkan()`
-Dipanggil oleh banyak object:
-`k1.tampilkan()`
-`k2.tampilkan()`
-`k3.tampilkan()`
-dst.
+Class dapat mewarisi sifat dari class lain, sehingga kode lebih modular dan terstruktur.
 
-Walaupun method sama, isi yang ditampilkan berbeda karena data tiap object berbeda.
-Loop juga menunjukkan polymorphism:
+Bukti kode:
 ```java
-for(int i=0; i<daftar.length; i++){
-    daftar[i].tampilkan();
-}
-```
-4. Abstraction (Abstraksi / fokus ke yang penting)
+class KegiatanOnline extends Kegiatan {
+    private String linkZoom;
 
-Penjelasan:
-Abstraction menyederhanakan penggunaan program sehingga user hanya melihat fungsi utama tanpa perlu mengetahui proses detail di dalam program.
-
-Bukti dari kode:
-User cukup menjalankan program untuk melihat:
-`daftar kegiatan`
-`urutan prioritas`
-`kegiatan paling penting`
-
-Detail proses seperti sorting tidak terlihat oleh user:
-```java
-for(int i=0;i<daftar.length-1;i++){
-    for(int j=0;j<daftar.length-1-i;j++){
-        if(daftar[j].getPrioritas() >
-           daftar[j+1].getPrioritas()){
-           
-           Kegiatan temp = daftar[j];
-           daftar[j] = daftar[j+1];
-           daftar[j+1] = temp;
-        }
+    public KegiatanOnline(String namaKegiatan, int prioritas, int jamMulai, int jamSelesai, String linkZoom) {
+        super(namaKegiatan, prioritas, jamMulai, jamSelesai);
+        this.linkZoom = linkZoom;
     }
 }
 ```
-User hanya melihat hasil akhir tanpa perlu memahami algoritma sorting.
+`KegiatanOnline` mewarisi semua atribut dan method dari `Kegiatan` dan menambahkan atribut baru `linkZoom`.
+
+4. Polymorphism (Banyak Bentuk)
+
+Method yang sama bisa memiliki perilaku berbeda di class turunan.
+
+Bukti kode:
+```java
+@Override
+public void tampilkan() {
+    System.out.printf("%-30s | %-8d | %02d:00-%02d:00 | %s\n", getNamaKegiatan(), getPrioritas(),
+                      getJamMulai(), getJamSelesai(), linkZoom);
+}
+```
+`KegiatanOnline` meng-override method `tampilkan()` dari `Kegiatan` agar menampilkan link Zoom, sementara `Kegiatan` menampilkan hanya nama, prioritas, dan jam.
  
 #### Keunikan Sistem Manajemen Waktu Mahasiswa
 
