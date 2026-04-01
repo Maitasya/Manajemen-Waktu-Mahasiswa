@@ -121,12 +121,14 @@ public class Main {
 #### Prinsip-prinsip OOP yang diterapkan
 
 1. Encapsulation (Enkapsulasi / menyimpan data di satu tempat)
+
 Penjelasan:
 Setiap class menyimpan data (atribut) dan fungsi (method) yang saling berkaitan. Data dibuat private agar tidak bisa diubah sembarangan, tetapi diakses melalui method tertentu.
+
 Bukti dari kode:
 Kelas Kegiatan menyimpan:
-private String namaKegiatan
-private int prioritas
+`private String namaKegiatan`
+`private int prioritas`
 
 Method dalam class:
 getNamaKegiatan() → mengambil nama kegiatan
@@ -136,18 +138,21 @@ Data kegiatan tidak diubah langsung, tetapi melalui constructor:
 Kegiatan(String namaKegiatan, int prioritas)
 
 3. Inheritance (Pewarisan / turun-temurun)
+
 Penjelasan:
 Inheritance memungkinkan class turunan (subclass) mewarisi atribut dan method dari class induk sehingga tidak perlu menulis ulang kode yang sama.
+
 Bukti dari kode (konsep yang bisa diterapkan):
 Kelas induk: Kegiatan
 Subclass yang dapat dibuat:
 Kuliah → menambahkan String mataKuliah
 Praktikum → menambahkan String ruangLab
 Deadline → menambahkan String tanggalDeadline
+
 Semua subclass mewarisi:
-namaKegiatan
-prioritas
-method tampilkan()
+`namaKegiatan`
+`prioritas`
+`method tampilkan()`
 
 Contoh konsep:
 ```java
@@ -156,16 +161,19 @@ class Kuliah extends Kegiatan {
 }
 ```
 3. Polymorphism (Banyak bentuk / fleksibel)
+
 Penjelasan:
 Polymorphism memungkinkan satu method digunakan oleh banyak object dengan hasil yang berbeda tergantung object yang memanggilnya.
+
 Bukti dari kode:
 Method yang digunakan:
-tampilkan()
+`tampilkan()`
 Dipanggil oleh banyak object:
-k1.tampilkan()
-k2.tampilkan()
-k3.tampilkan()
+`k1.tampilkan()`
+`k2.tampilkan()`
+`k3.tampilkan()`
 dst.
+
 Walaupun method sama, isi yang ditampilkan berbeda karena data tiap object berbeda.
 Loop juga menunjukkan polymorphism:
 ```java
@@ -174,13 +182,15 @@ for(int i=0; i<daftar.length; i++){
 }
 ```
 4. Abstraction (Abstraksi / fokus ke yang penting)
+
 Penjelasan:
 Abstraction menyederhanakan penggunaan program sehingga user hanya melihat fungsi utama tanpa perlu mengetahui proses detail di dalam program.
+
 Bukti dari kode:
 User cukup menjalankan program untuk melihat:
-daftar kegiatan
-urutan prioritas
-kegiatan paling penting
+`daftar kegiatan`
+`urutan prioritas`
+`kegiatan paling penting`
 
 Detail proses seperti sorting tidak terlihat oleh user:
 ```java
