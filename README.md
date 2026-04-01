@@ -142,8 +142,7 @@ public class App {
 
 #### Screenshot output
 
-<img width="1471" height="678" alt="image" src="https://github.com/user-attachments/assets/f69f0b6a-b3e4-4170-a302-c41f70ea27d4" />
-
+<img width="1501" height="753" alt="image" src="https://github.com/user-attachments/assets/6391c820-7437-4124-8308-03ee048178dc" />
 
 #### Prinsip-prinsip OOP yang diterapkan
 
