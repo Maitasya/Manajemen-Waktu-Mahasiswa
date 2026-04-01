@@ -24,91 +24,91 @@ diagram hasil di mermaid.ai
 
 #### Implementasi Kode
 ```java
-class Kegiatan {
+import java.util.*;
 
+class Kegiatan {
     private String namaKegiatan;
     private int prioritas;
+    private int jamMulai;
+    private int jamSelesai;
 
-    public Kegiatan(String namaKegiatan, int prioritas) {
+    public Kegiatan(String namaKegiatan, int prioritas, int jamMulai, int jamSelesai) {
         this.namaKegiatan = namaKegiatan;
         this.prioritas = prioritas;
-    }
-
-    public String getNamaKegiatan() {
-        return namaKegiatan;
-    }
-
-    public int getPrioritas() {
-        return prioritas;
+        this.jamMulai = jamMulai;
+        this.jamSelesai = jamSelesai;
     }
 
     public void tampilkan() {
-        System.out.println(
-        namaKegiatan + " | Prioritas: " + prioritas);
+        System.out.printf("%-30s | %-8d | %02d:00-%02d:00\n", namaKegiatan, prioritas, jamMulai, jamSelesai);
+    }
+
+    public String getNamaKegiatan() { return namaKegiatan; }
+    public int getPrioritas() { return prioritas; }
+    public int getJamMulai() { return jamMulai; }
+    public int getJamSelesai() { return jamSelesai; }
+    public boolean bentrok(Kegiatan lain) {
+        return !(jamSelesai <= lain.getJamMulai() || jamMulai >= lain.getJamSelesai());
+    }
+    public int durasi() { return jamSelesai - jamMulai; }
+}
+
+class KegiatanOnline extends Kegiatan {
+    private String linkZoom;
+
+    public KegiatanOnline(String namaKegiatan, int prioritas, int jamMulai, int jamSelesai, String linkZoom) {
+        super(namaKegiatan, prioritas, jamMulai, jamSelesai);
+        this.linkZoom = linkZoom;
+    }
+
+    @Override
+    public void tampilkan() {
+        System.out.printf("%-30s | %-8d | %02d:00-%02d:00 | %s\n", getNamaKegiatan(), getPrioritas(),
+                          getJamMulai(), getJamSelesai(), linkZoom);
     }
 }
 
-
 public class App {
-
     public static void main(String[] args) {
-
         String nama = "May";
         String nim = "230123456";
 
         Kegiatan[] daftar = {
-
-            new Kegiatan(
-            "Kuliah Struktur Data (08.00-10.00)", 2),
-
-            new Kegiatan(
-            "Praktikum Struktur Data (10.00-12.00)", 1),
-
-            new Kegiatan(
-            "Deadline Tugas Algoritma (12.00)", 1),
-
-            new Kegiatan(
-            "Asistensi Basis Data (13.00-15.00)", 3),
-
-            new Kegiatan(
-            "Rapat Organisasi (19.00-20.00)", 4),
-
-            new Kegiatan(
-            "Demo Project (20.00)", 1)
+            new Kegiatan("Kuliah Struktur Data", 2, 8, 10),
+            new KegiatanOnline("Praktikum Struktur Data", 1, 10, 12, "zoom.com/praktikum"),
+            new Kegiatan("Deadline Tugas Algoritma", 1, 11, 12),
+            new KegiatanOnline("Asistensi Basis Data", 3, 13, 15, "zoom.com/asistensi"),
+            new Kegiatan("Rapat Organisasi", 4, 19, 20),
+            new Kegiatan("Demo Project", 1, 20, 21)
         };
 
-
-        System.out.println(
-        "=== MANAJEMEN WAKTU MAHASISWA ===");
-
+        System.out.println("=== MANAJEMEN WAKTU MAHASISWA ===");
         System.out.println("Nama : " + nama);
         System.out.println("NIM  : " + nim);
 
-
         System.out.println("\nDaftar Kegiatan:");
+        System.out.printf("%-30s | %-8s | %-11s | %s\n", "Kegiatan", "Prioritas", "Jam", "Link");
+        System.out.println("--------------------------------------------------------------------------");
+        for (Kegiatan k : daftar) k.tampilkan();
+
+        System.out.println("\nDeteksi Bentrok Jadwal:");
+        boolean adaBentrok = false;
         for (int i = 0; i < daftar.length; i++) {
-            daftar[i].tampilkan();
-        }
-
-
-        // sorting prioritas (Bubble Sort)
-        for (int i = 0; i < daftar.length-1; i++) {
-
-            for (int j = 0; j < daftar.length-1-i; j++) {
-
-                if (daftar[j].getPrioritas() >
-                    daftar[j+1].getPrioritas()) {
-
-                    Kegiatan temp = daftar[j];
-                    daftar[j] = daftar[j+1];
-                    daftar[j+1] = temp;
+            for (int j = i + 1; j < daftar.length; j++) {
+                if (daftar[i].bentrok(daftar[j])) {
+                    System.out.printf("⚠ %-30s <--> %s\n", daftar[i].getNamaKegiatan(), daftar[j].getNamaKegiatan());
+                    adaBentrok = true;
                 }
             }
         }
+        if (!adaBentrok) System.out.println("Tidak ada jadwal yang bentrok.");
 
+        int totalJam = 0;
+        for (Kegiatan k : daftar) totalJam += k.durasi();
+        System.out.println("\nTotal jam kegiatan hari ini: " + totalJam + " jam");
 
-        System.out.println(
-        "\nPrioritas utama:");
+        Arrays.sort(daftar, Comparator.comparingInt(Kegiatan::getPrioritas));
+        System.out.println("\nPrioritas utama:");
         daftar[0].tampilkan();
     }
 }
