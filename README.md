@@ -20,7 +20,7 @@ Dengan adanya sistem ini, aku dapat melihat jadwal hariannya dengan lebih jelas,
 #### Rancangan Kelas Diagram
 diagram hasil di mermaid.ai
 
-<img width="660" height="1264" alt="mermaid-diagram" src="https://github.com/user-attachments/assets/e7a3c895-88db-4c96-836a-a39c3e376c88" />
+<img width="1079" height="1527" alt="mermaid-diagram (2)" src="https://github.com/user-attachments/assets/f9e34fc9-7510-4663-9e4c-7eea640dbff4" />
 
 #### Implementasi Kode
 ```java
