@@ -31,55 +31,81 @@ class Kegiatan {
     private int prioritas;
     private int jamMulai;
     private int jamSelesai;
+    private String kategori;
 
-    public Kegiatan(String namaKegiatan, int prioritas, int jamMulai, int jamSelesai) {
+    public Kegiatan(String namaKegiatan, int prioritas, int jamMulai, int jamSelesai, String kategori) {
         this.namaKegiatan = namaKegiatan;
         this.prioritas = prioritas;
         this.jamMulai = jamMulai;
         this.jamSelesai = jamSelesai;
+        this.kategori = kategori;
     }
 
     public void tampilkan() {
-        System.out.printf("%-30s | %-8d | %02d:00-%02d:00\n", namaKegiatan, prioritas, jamMulai, jamSelesai);
+        System.out.printf("%-30s | %-8d | %02d:00-%02d:00 | %-12s\n", namaKegiatan, prioritas, jamMulai, jamSelesai, kategori);
     }
 
     public String getNamaKegiatan() { return namaKegiatan; }
     public int getPrioritas() { return prioritas; }
     public int getJamMulai() { return jamMulai; }
     public int getJamSelesai() { return jamSelesai; }
+    public String getKategori() { return kategori; }
+
     public boolean bentrok(Kegiatan lain) {
         return !(jamSelesai <= lain.getJamMulai() || jamMulai >= lain.getJamSelesai());
     }
+
     public int durasi() { return jamSelesai - jamMulai; }
 }
 
-class KegiatanOnline extends Kegiatan {
-    private String linkZoom;
+class KegiatanAkademik extends Kegiatan {
+    private String mataKuliah;
+    private String dosen;
 
-    public KegiatanOnline(String namaKegiatan, int prioritas, int jamMulai, int jamSelesai, String linkZoom) {
-        super(namaKegiatan, prioritas, jamMulai, jamSelesai);
-        this.linkZoom = linkZoom;
+    public KegiatanAkademik(String namaKegiatan, int prioritas, int jamMulai, int jamSelesai, String mataKuliah, String dosen) {
+        super(namaKegiatan, prioritas, jamMulai, jamSelesai, "Akademik");
+        this.mataKuliah = mataKuliah;
+        this.dosen = dosen;
     }
 
     @Override
     public void tampilkan() {
-        System.out.printf("%-30s | %-8d | %02d:00-%02d:00 | %s\n", getNamaKegiatan(), getPrioritas(),
-                          getJamMulai(), getJamSelesai(), linkZoom);
+        System.out.printf("%-30s | %-8d | %02d:00-%02d:00 | %-12s | %-15s | %s\n", 
+                          getNamaKegiatan(), getPrioritas(), getJamMulai(), getJamSelesai(), getKategori(), mataKuliah, dosen);
     }
 }
 
+
+class KegiatanNonAkademik extends Kegiatan {
+    private String organisasi;
+    private String lokasiRapat;
+
+    public KegiatanNonAkademik(String namaKegiatan, int prioritas, int jamMulai, int jamSelesai, String organisasi, String lokasiRapat) {
+        super(namaKegiatan, prioritas, jamMulai, jamSelesai, "Non-Akademik");
+        this.organisasi = organisasi;
+        this.lokasiRapat = lokasiRapat;
+    }
+
+    @Override
+    public void tampilkan() {
+        System.out.printf("%-30s | %-8d | %02d:00-%02d:00 | %-12s | %-15s | %s\n", 
+                          getNamaKegiatan(), getPrioritas(), getJamMulai(), getJamSelesai(), getKategori(), organisasi, lokasiRapat);
+    }
+}
+
+// Main App
 public class App {
     public static void main(String[] args) {
         String nama = "May";
         String nim = "230123456";
 
         Kegiatan[] daftar = {
-            new Kegiatan("Kuliah Struktur Data", 2, 8, 10),
-            new KegiatanOnline("Praktikum Struktur Data", 1, 10, 12, "zoom.com/praktikum"),
-            new Kegiatan("Deadline Tugas Algoritma", 1, 11, 12),
-            new KegiatanOnline("Asistensi Basis Data", 3, 13, 15, "zoom.com/asistensi"),
-            new Kegiatan("Rapat Organisasi", 4, 19, 20),
-            new Kegiatan("Demo Project", 1, 20, 21)
+            new KegiatanAkademik("Kuliah Struktur Data", 2, 8, 10, "Struktur Data", "Pak Budi"),
+            new KegiatanAkademik("Praktikum Struktur Data", 1, 10, 12, "Struktur Data", "Bu Sari"),
+            new KegiatanAkademik("Deadline Tugas Algoritma", 1, 11, 12, "Algoritma", "Pak Joko"),
+            new KegiatanAkademik("Asistensi Basis Data", 3, 13, 15, "Basis Data", "Bu Dina"),
+            new KegiatanNonAkademik("Rapat Organisasi", 4, 19, 20, "Himpunan Mahasiswa", "Ruang 101"),
+            new KegiatanNonAkademik("Demo Project", 1, 20, 21, "Kelompok Project", "Lab 5")
         };
 
         System.out.println("=== MANAJEMEN WAKTU MAHASISWA ===");
@@ -87,8 +113,8 @@ public class App {
         System.out.println("NIM  : " + nim);
 
         System.out.println("\nDaftar Kegiatan:");
-        System.out.printf("%-30s | %-8s | %-11s | %s\n", "Kegiatan", "Prioritas", "Jam", "Link");
-        System.out.println("--------------------------------------------------------------------------");
+        System.out.printf("%-30s | %-8s | %-11s | %-12s | %-15s | %s\n", "Kegiatan", "Prioritas", "Jam", "Kategori", "MataKuliah/Org", "Dosen/Lokasi");
+        System.out.println("-------------------------------------------------------------------------------------------");
         for (Kegiatan k : daftar) k.tampilkan();
 
         System.out.println("\nDeteksi Bentrok Jadwal:");
@@ -96,7 +122,7 @@ public class App {
         for (int i = 0; i < daftar.length; i++) {
             for (int j = i + 1; j < daftar.length; j++) {
                 if (daftar[i].bentrok(daftar[j])) {
-                    System.out.printf("⚠ %-30s <--> %s\n", daftar[i].getNamaKegiatan(), daftar[j].getNamaKegiatan());
+                    System.out.printf("%-30s <--> %s\n", daftar[i].getNamaKegiatan(), daftar[j].getNamaKegiatan());
                     adaBentrok = true;
                 }
             }
@@ -116,8 +142,8 @@ public class App {
 
 #### Screenshot output
 
-<img width="1520" height="629" alt="image" src="https://github.com/user-attachments/assets/cdd31acf-cc42-4a6f-b69a-8297180eee1c" />
-/>
+<img width="1471" height="678" alt="image" src="https://github.com/user-attachments/assets/f69f0b6a-b3e4-4170-a302-c41f70ea27d4" />
+
 
 #### Prinsip-prinsip OOP yang diterapkan
 
