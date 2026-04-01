@@ -148,70 +148,114 @@ public class App {
 
 1. Encapsulation (Enkapsulasi)
 
-Menyembunyikan atribut agar tidak bisa diakses langsung dari luar class, dan menyediakan getter/setter untuk manipulasi data.
+Penjelasan:
+Encapsulation berarti menyembunyikan atribut dari akses langsung dari luar kelas dan hanya menyediakan `getter/setter` atau method tertentu untuk mengaksesnya. Ini membuat data lebih aman dan terkontrol.
 
 Bukti kode:
-```java
-private String namaKegiatan;
-private int prioritas;
-private int jamMulai;
-private int jamSelesai;
-
-public String getNamaKegiatan() { return namaKegiatan; }
-public void setNamaKegiatan(String namaKegiatan) { this.namaKegiatan = namaKegiatan; }
-
-public int getPrioritas() { return prioritas; }
-public void setPrioritas(int prioritas) { this.prioritas = prioritas; }
-
-public int getJamMulai() { return jamMulai; }
-public void setJamMulai(int jamMulai) { this.jamMulai = jamMulai; }
-
-public int getJamSelesai() { return jamSelesai; }
-public void setJamSelesai(int jamSelesai) { this.jamSelesai = jamSelesai; }
 ```
-2. Abstraction (Abstraksi)
+class Kegiatan {
+    private String namaKegiatan;
+    private int prioritas;
+    private int jamMulai;
+    private int jamSelesai;
+    private String kategori;
 
-Menyediakan method untuk digunakan oleh user tanpa perlu mengetahui detail implementasi.
+    public Kegiatan(String namaKegiatan, int prioritas, int jamMulai, int jamSelesai, String kategori) {
+        this.namaKegiatan = namaKegiatan;
+        this.prioritas = prioritas;
+        this.jamMulai = jamMulai;
+        this.jamSelesai = jamSelesai;
+        this.kategori = kategori;
+    }
 
-Bukti kode:
-```java
-public void tampilkan() {
-    System.out.printf("%-30s | %-8d | %02d:00-%02d:00\n", namaKegiatan, prioritas, jamMulai, jamSelesai);
+    public String getNamaKegiatan() { return namaKegiatan; }
+    public int getPrioritas() { return prioritas; }
+    public int getJamMulai() { return jamMulai; }
+    public int getJamSelesai() { return jamSelesai; }
+    public String getKategori() { return kategori; }
 }
 ```
-User cukup memanggil `tampilkan()` untuk menampilkan informasi kegiatan, tanpa perlu tahu bagaimana data disimpan atau diformat.
+Yang terjadi:
 
-3. Inheritance (Pewarisan)
+`namaKegiatan`, `prioritas`, dll. `private`, jadi tidak bisa diubah langsung dari luar.
+Untuk akses, kita gunakan `getter` seperti `getNamaKegiatan()`.
 
-Class dapat mewarisi sifat dari class lain, sehingga kode lebih modular dan terstruktur.
+2. Inheritance (Pewarisan)
+
+Penjelasan:
+Inheritance memungkinkan kita membuat kelas anak (subclass) dari kelas induk (superclass) untuk menambahkan atau mengubah perilaku. Ini mengurangi duplikasi kode.
 
 Bukti kode:
-```java
-class KegiatanOnline extends Kegiatan {
-    private String linkZoom;
+```
+// Kelas induk
+class Kegiatan { ... }
 
-    public KegiatanOnline(String namaKegiatan, int prioritas, int jamMulai, int jamSelesai, String linkZoom) {
-        super(namaKegiatan, prioritas, jamMulai, jamSelesai);
-        this.linkZoom = linkZoom;
+// Subclass Akademik
+class KegiatanAkademik extends Kegiatan {
+    private String mataKuliah;
+    private String dosen;
+
+    public KegiatanAkademik(String namaKegiatan, int prioritas, int jamMulai, int jamSelesai, String mataKuliah, String dosen) {
+        super(namaKegiatan, prioritas, jamMulai, jamSelesai, "Akademik");
+        this.mataKuliah = mataKuliah;
+        this.dosen = dosen;
+    }
+}
+
+// Subclass Non-Akademik
+class KegiatanNonAkademik extends Kegiatan {
+    private String organisasi;
+    private String lokasiRapat;
+
+    public KegiatanNonAkademik(String namaKegiatan, int prioritas, int jamMulai, int jamSelesai, String organisasi, String lokasiRapat) {
+        super(namaKegiatan, prioritas, jamMulai, jamSelesai, "Non-Akademik");
+        this.organisasi = organisasi;
+        this.lokasiRapat = lokasiRapat;
     }
 }
 ```
-`KegiatanOnline` mewarisi semua atribut dan method dari `Kegiatan` dan menambahkan atribut baru `linkZoom`.
+Yang terjadi:
 
-4. Polymorphism (Banyak Bentuk)
+`KegiatanAkademik` dan `KegiatanNonAkademik` mewarisi semua atribut dan method dari `Kegiatan`.
+Subclass menambahkan atribut spesifik tanpa menulis ulang atribut umum.
 
-Method yang sama bisa memiliki perilaku berbeda di class turunan.
+3. Polymorphism (Polimorfisme)
+
+Penjelasan:
+Polymorphism memungkinkan objek kelas berbeda diperlakukan sama jika mereka berasal dari kelas induk yang sama. Contohnya, kita bisa menyimpan semua jenis `Kegiatan` dalam satu array `Kegiatan[]`.
 
 Bukti kode:
-```java
-@Override
-public void tampilkan() {
-    System.out.printf("%-30s | %-8d | %02d:00-%02d:00 | %s\n", getNamaKegiatan(), getPrioritas(),
-                      getJamMulai(), getJamSelesai(), linkZoom);
+```
+Kegiatan[] daftar = {
+    new KegiatanAkademik("Kuliah Struktur Data", 2, 8, 10, "Struktur Data", "Pak Budi"),
+    new KegiatanNonAkademik("Rapat Organisasi", 4, 19, 20, "Himpunan Mahasiswa", "Ruang 101")
+};
+
+for (Kegiatan k : daftar) {
+    k.tampilkan(); // Method tampilkan() yang dipanggil sesuai subclass masing-masing
 }
 ```
-`KegiatanOnline` meng-override method `tampilkan()` dari `Kegiatan` agar menampilkan link Zoom, sementara `Kegiatan` menampilkan hanya nama, prioritas, dan jam.
- 
+Yang terjadi:
+
+Meskipun tipe array Kegiatan, method `tampilkan()` akan dipanggil sesuai versi subclass yang sebenarnya (Akademik/Non-Akademik).
+Ini disebut runtime polymorphism (overriding method).
+
+4. Abstraction (Abstraksi)
+
+Penjelasan:
+Abstraction berarti menyembunyikan detail implementasi dan hanya menampilkan fungsi penting. Misalnya, kita tidak perlu tahu bagaimana bentrok jadwal dicek, cukup pakai method `bentrok()`.
+
+Bukti kode:
+```
+public boolean bentrok(Kegiatan lain) {
+    return !(getJamSelesai() <= lain.getJamMulai() || getJamMulai() >= lain.getJamSelesai());
+}
+```
+Yang terjadi:
+
+Pengguna kelas cukup memanggil `k1.bentrok(k2)` tanpa tahu logika perhitungan jam di dalamnya.
+Abstraction memudahkan penggunaan kelas tanpa harus mengerti implementasinya.
+
 #### Keunikan Sistem Manajemen Waktu Mahasiswa
 
 # Keunikan Sistem Manajemen Waktu Mahasiswa
