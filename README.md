@@ -210,10 +210,9 @@ User hanya melihat hasil akhir tanpa perlu memahami algoritma sorting.
  
 #### Keunikan Sistem Manajemen Waktu Mahasiswa
 
-1. Keunikan Sistem Manajemen Waktu Mahasiswa
-2. Prioritas otomatis → setiap kegiatan memiliki tingkat prioritas sehingga mudah menentukan mana yang paling penting.
-3. Pengurutan kegiatan → jadwal dapat diurutkan otomatis berdasarkan prioritas.
-4. Fokus kebutuhan mahasiswa → mencakup kuliah, praktikum, deadline tugas, organisasi, dan seminar.
-5. Mengurangi lupa deadline → semua kegiatan tercatat dalam satu sistem.
-6. Berbasis OOP → data tersusun rapi dalam bentuk class dan object sehingga mudah dikembangkan.
-7. Mudah dikembangkan → bisa ditambah fitur notifikasi, pengingat, dan cek bentrok jadwal.
+1. Prioritas otomatis → setiap kegiatan memiliki tingkat prioritas sehingga mudah menentukan mana yang paling penting.
+2. Pengurutan kegiatan → jadwal dapat diurutkan otomatis berdasarkan prioritas.
+3. Fokus kebutuhan mahasiswa → mencakup kuliah, praktikum, deadline tugas, organisasi, dan seminar.
+4. Mengurangi lupa deadline → semua kegiatan tercatat dalam satu sistem.
+5. Berbasis OOP → data tersusun rapi dalam bentuk class dan object sehingga mudah dikembangkan.
+6. Mudah dikembangkan → bisa ditambah fitur notifikasi, pengingat, dan cek bentrok jadwal.
